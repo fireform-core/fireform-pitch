@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FireForm — Report once. File everywhere.</title>
+<style>
+  :root{
+    --bg:#0c0a09; --bg2:#1a1310; --ink:#fff7ed; --muted:#d6c3b0;
+    --ember:#ff6a1a; --ember2:#ffae3b; --ash:#3a322e; --line:rgba(255,170,80,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Deck ---------- */
+  #deck{position:fixed; inset:0}
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    justify-content:center; align-items:flex-start;
+    padding:8vh 9vw; opacity:0; visibility:hidden;
+    transform:translateY(24px) scale(.99);
+    transition:opacity .6s ease, transform .6s ease, visibility .6s;
+    background:
+      radial-gradient(1200px 700px at 15% 0%, rgba(255,106,26,.16), transparent 60%),
+      radial-gradient(900px 600px at 100% 100%, rgba(255,174,59,.10), transparent 55%),
+      linear-gradient(160deg,var(--bg),var(--bg2));
+  }
+  .slide.active{opacity:1; visibility:visible; transform:none; z-index:2}
+  .slide.demo{padding:0; background:#000; justify-content:flex-start; align-items:stretch}
+
+  .kicker{
+    font-size:clamp(.7rem,1.1vw,.95rem); letter-spacing:.32em; text-transform:uppercase;
+    color:var(--ember2); font-weight:700; margin-bottom:1.1rem;
+    display:flex; align-items:center; gap:.7rem;
+  }
+  .kicker::before{content:""; width:34px; height:2px; background:linear-gradient(90deg,var(--ember),transparent)}
+  h1{font-size:clamp(2.6rem,7vw,6rem); line-height:1.02; font-weight:800; letter-spacing:-.02em}
+  h2{font-size:clamp(2rem,4.6vw,3.6rem); line-height:1.06; font-weight:800; letter-spacing:-.015em}
+  .lede{font-size:clamp(1.05rem,1.9vw,1.6rem); color:var(--muted); max-width:60ch; margin-top:1.4rem; line-height:1.5}
+  .grad{background:linear-gradient(120deg,var(--ember2),var(--ember)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .big-num{font-size:clamp(3.4rem,11vw,9rem); font-weight:800; line-height:.9; letter-spacing:-.03em}
+  .meta{margin-top:2.2rem; font-size:.95rem; color:var(--muted); display:flex; gap:1.4rem; flex-wrap:wrap}
+  .chip{border:1px solid var(--line); padding:.45rem .9rem; border-radius:999px; font-size:.82rem; color:var(--ember2); letter-spacing:.04em}
+  .row{display:flex; gap:1.1rem; margin-top:2rem; flex-wrap:wrap}
+  .card{
+    flex:1 1 220px; min-width:200px; border:1px solid var(--line); border-radius:16px;
+    padding:1.4rem 1.5rem; background:rgba(255,255,255,.025); backdrop-filter:blur(4px);
+  }
+  .card .n{color:var(--ember2); font-weight:800; font-size:1.1rem; margin-bottom:.4rem; display:flex; gap:.6rem; align-items:center}
+  .card p{color:var(--muted); font-size:.98rem; line-height:1.5}
+  .flow{display:flex; align-items:center; gap:1rem; margin-top:2.4rem; flex-wrap:wrap}
+  .flow .step{border:1px solid var(--line); border-radius:14px; padding:1rem 1.3rem; background:rgba(255,255,255,.03); min-width:150px}
+  .flow .step b{display:block; color:var(--ember2); font-size:1.02rem}
+  .flow .step span{color:var(--muted); font-size:.85rem}
+  .flow .arrow{color:var(--ember); font-size:1.6rem; font-weight:700}
+  .scene{font-style:italic; color:var(--muted)}
+
+  /* ---------- Demo slide ---------- */
+  .demobar{
+    flex:0 0 54px; width:100%; z-index:5;
+    display:flex; align-items:center; gap:.8rem; padding:0 1rem;
+    background:linear-gradient(180deg,#15100d,#0c0a09); border-bottom:1px solid var(--line);
+  }
+  .demobar .dot{width:11px;height:11px;border-radius:50%}
+  .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+  .demobar .title{font-weight:700; color:var(--ember2); letter-spacing:.04em; margin-left:.5rem; white-space:nowrap}
+  .demobar input{
+    flex:1; max-width:360px; background:#000; border:1px solid var(--line); color:var(--ink);
+    padding:.45rem .7rem; border-radius:8px; font-size:.85rem; font-family:ui-monospace,Menlo,monospace;
+  }
+  .demobar button{
+    background:linear-gradient(120deg,var(--ember),var(--ember2)); border:0; color:#1a0d04;
+    font-weight:700; padding:.5rem .9rem; border-radius:8px; cursor:pointer; font-size:.82rem;
+  }
+  .demobar .live{margin-left:auto; display:flex; align-items:center; gap:.45rem; color:#28c840; font-size:.78rem; font-weight:700; letter-spacing:.08em}
+  .demobar .live i{width:8px;height:8px;border-radius:50%;background:#28c840; box-shadow:0 0 10px #28c840; animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  #demoFrame{flex:1 1 auto; width:100%; min-height:0; border:0; background:#0c0a09; display:block}
+  .frame-fallback{
+    position:absolute; top:54px; left:0; right:0; bottom:0; display:none; flex-direction:column;
+    justify-content:center; align-items:center; text-align:center; padding:2rem; color:var(--muted);
+  }
+  .frame-fallback.show{display:flex}
+  .frame-fallback code{background:#000;border:1px solid var(--line);padding:.3rem .6rem;border-radius:8px;color:var(--ember2)}
+
+  /* ---------- Chrome ---------- */
+  #progress{position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--ember),var(--ember2)); z-index:50; transition:width .4s ease}
+  #dots{position:fixed; bottom:26px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:40}
+  #dots button{width:9px;height:9px;border-radius:50%;border:0;background:var(--ash);cursor:pointer;transition:.3s;padding:0}
+  #dots button.on{background:var(--ember2); transform:scale(1.35)}
+  .nav{position:fixed; bottom:20px; z-index:40; background:rgba(255,255,255,.06); border:1px solid var(--line); color:var(--ink); width:42px;height:42px;border-radius:50%; cursor:pointer; font-size:1.1rem; transition:.2s}
+  .nav:hover{background:rgba(255,106,26,.25)}
+  #prev{right:74px}#next{right:24px}
+  #count{position:fixed; top:22px; right:28px; z-index:40; color:var(--muted); font-size:.85rem; letter-spacing:.1em; font-variant-numeric:tabular-nums}
+  .hint{position:fixed; bottom:22px; left:28px; z-index:40; color:var(--ash); font-size:.78rem}
+  .flame{display:inline-block; animation:flick 2.4s ease-in-out infinite}
+  @keyframes flick{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.08)}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="count"></div>
+
+<div id="deck">
+
+  <!-- 1 — Title -->
+  <section class="slide active">
+    <div class="kicker">A FireForm Story</div>
+    <h1>Report once.<br><span class="grad">File everywhere.</span> <span class="flame">🔥</span></h1>
+    <p class="lede">The story of one fire — and the second shift no one sees. This is how FireForm gives first responders their time back.</p>
+    <div class="meta">
+      <span class="chip">UN Digital Public Good</span>
+      <span class="chip">Reboot the Earth — 1st Place</span>
+      <span class="chip">Open source</span>
+    </div>
+  </section>
+
+  <!-- 2 — The call -->
+  <section class="slide">
+    <div class="kicker">02:47 — The Call</div>
+    <h2>Engine 14, structure fire.<br>Smoke showing.</h2>
+    <p class="lede scene">A two-story home off the county road. By the time the tones drop, half the block is already awake. The crew is rolling before the dispatcher finishes the address — turnout gear half-on, adrenaline doing the rest.</p>
+  </section>
+
+  <!-- 3 — The response -->
+  <section class="slide">
+    <div class="kicker">03:02 — On Scene</div>
+    <h2>They do the part<br>everyone <span class="grad">remembers.</span></h2>
+    <p class="lede scene">Lines pulled. A search of the upstairs. A family of four out the front door and accounted for on the lawn. Twenty-eight minutes of heat, water, and instinct. By 03:30 the fire is knocked down and the worst is over.</p>
+  </section>
+
+  <!-- 4 — Aftermath -->
+  <section class="slide">
+    <div class="kicker">05:10 — Back at the Station</div>
+    <h2>The fire's out.<br>The shift isn't.</h2>
+    <p class="lede">Gear hung to dry, coffee poured, bodies running on fumes. Then the laptop opens — and the <span class="grad">second shift</span> begins. The part nobody puts on a recruitment poster.</p>
+  </section>
+
+  <!-- 5 — The problem -->
+  <section class="slide">
+    <div class="kicker">The Hidden Second Shift</div>
+    <h2>One incident.<br>A stack of <span class="grad">agencies.</span></h2>
+    <p class="lede">The same night gets reported again and again — county sheriff, local PD, EMS, the state. Every agency wants its own form, its own fields, its own order.</p>
+    <div class="row">
+      <div class="card"><div class="n">📝 Same data</div><p>Names, times, address, narrative — keyed in by hand for every single form.</p></div>
+      <div class="card"><div class="n">🗂️ Different templates</div><p>Each agency's PDF is laid out differently. No two ask the same way.</p></div>
+      <div class="card"><div class="n">⏳ End of shift</div><p>This all happens when the crew is most tired and least sharp.</p></div>
+    </div>
+  </section>
+
+  <!-- 6 — The cost -->
+  <section class="slide">
+    <div class="kicker">What It Actually Costs</div>
+    <div class="big-num grad">Hours</div>
+    <p class="lede">Per shift. Per responder. Time spent re-typing what already happened instead of resting, training, or being ready for the next call. Across a department, it's <strong>hundreds of hours</strong> a year lost to redundant paperwork.</p>
+  </section>
+
+  <!-- 7 — The solution -->
+  <section class="slide">
+    <div class="kicker">There's a Better Way</div>
+    <h2>Meet <span class="grad">FireForm</span> 🔥</h2>
+    <p class="lede">A "report once, file everywhere" system. The firefighter describes the incident <strong>one time</strong> — and every required form fills itself, for every agency.</p>
+    <div class="meta">
+      <span class="chip">Report once</span>
+      <span class="chip">File everywhere</span>
+      <span class="chip">Nothing leaves the machine</span>
+    </div>
+  </section>
+
+  <!-- 8 — How it works -->
+  <section class="slide">
+    <div class="kicker">How It Works</div>
+    <h2>One input. Every form.</h2>
+    <div class="flow">
+      <div class="step"><b>🎙️ Speak it once</b><span>A voice memo or one master description of the incident.</span></div>
+      <div class="arrow">→</div>
+      <div class="step"><b>🧠 Local AI</b><span>An open-source LLM (Ollama) extracts names, places &amp; details into structured data.</span></div>
+      <div class="arrow">→</div>
+      <div class="step"><b>📄 Auto-fill</b><span>That one record fills every agency's PDF template automatically.</span></div>
+    </div>
+    <p class="lede">It runs locally — the data never has to leave the department's machine. And it's agnostic: it works with any department's existing fillable forms.</p>
+  </section>
+
+  <!-- 9 — The payoff -->
+  <section class="slide">
+    <div class="kicker">The Payoff</div>
+    <h2>Give the shift <span class="grad">back.</span></h2>
+    <p class="lede">Hours returned to every responder, every shift. Built 100% open source as a recognized <strong>UN Digital Public Good</strong> — free for any department, from Cal Fire to a rural volunteer crew, to adopt and make their own.</p>
+    <div class="meta">
+      <span class="chip">Saves hundreds of hours / dept</span>
+      <span class="chip">Open source &amp; free</span>
+      <span class="chip">Built for first responders</span>
+    </div>
+  </section>
+
+  <!-- 10 — Live demo (embedded frontend) -->
+  <section class="slide demo">
+    <div class="demobar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="title">🔥 FireForm — Live Demo</span>
+      <input id="demoUrl" value="http://localhost:5173" spellcheck="false">
+      <button id="demoGo">Load</button>
+      <span class="live"><i></i>LIVE</span>
+    </div>
+    <iframe id="demoFrame" src="about:blank" title="FireForm live frontend"></iframe>
+    <div class="frame-fallback" id="fallback">
+      <h2 style="margin-bottom:1rem">Start the frontend to demo it live</h2>
+      <p style="max-width:46ch;margin-bottom:1.2rem">Run the dev server in <code>fireform-frontend</code>, then click <strong>Load</strong>:</p>
+      <p><code>npm run dev</code></p>
+      <p style="margin-top:1.2rem;font-size:.85rem">If your renderer serves on a different port, edit the URL in the bar above.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- chrome -->
+<div id="dots"></div>
+<button class="nav" id="prev" aria-label="Previous">‹</button>
+<button class="nav" id="next" aria-label="Next">›</button>
+<div class="hint">← → / space to navigate</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const progress=document.getElementById('progress');
+  const count=document.getElementById('count');
+  let i=0, loaded=false;
+
+  slides.forEach((_,n)=>{
+    const b=document.createElement('button');
+    b.addEventListener('click',()=>go(n));
+    dotsWrap.appendChild(b);
+  });
+  const dots=[...dotsWrap.children];
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+    progress.style.width=((i)/(slides.length-1)*100)+'%';
+    count.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+    if(i===slides.length-1 && !loaded) loadDemo();
+  }
+  function next(){go(i+1)} function prev(){go(i-1)}
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next()}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev()}
+    else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  });
+  document.getElementById('next').addEventListener('click',next);
+  document.getElementById('prev').addEventListener('click',prev);
+
+  // ---- demo embed ----
+  const frame=document.getElementById('demoFrame');
+  const urlIn=document.getElementById('demoUrl');
+  const fallback=document.getElementById('fallback');
+  function loadDemo(){
+    loaded=true;
+    const url=urlIn.value.trim();
+    fallback.classList.remove('show');
+    frame.src=url;
+    // if it never loads (server down / blocked), show the helper after a beat
+    clearTimeout(window.__fbTimer);
+    window.__fbTimer=setTimeout(()=>{
+      try{ if(!frame.contentWindow || frame.contentWindow.length===0){} }catch(e){}
+    },1200);
+    frame.onerror=()=>fallback.classList.add('show');
+  }
+  document.getElementById('demoGo').addEventListener('click',()=>{loaded=false;loadDemo()});
+  urlIn.addEventListener('keydown',e=>{if(e.key==='Enter'){loaded=false;loadDemo()}});
+
+  go(0);
+</script>
+</body>
+</html>
