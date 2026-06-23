@@ -1,0 +1,81 @@
+# ============================================================
+#  FireForm pitch — editable slide text
+# ============================================================
+# Edit the text after each "key:" and refresh the deck in your browser
+# (when served over http via ./present.command). That's it.
+#
+#  FORMATTING
+#   *stars*   -> orange highlight        e.g.  File *everywhere.*
+#   |         -> line break in a heading  e.g.  The fire's out.|The shift isn't.
+#   #         -> a comment line (ignored)
+#
+#  LISTS
+#   chips:  separate each pill with a single  |
+#   cards:  separate cards with  ||   and split "Title :: body" with  ::
+#   flow:   separate steps with  ||   and split "Title :: detail" with  ::
+#
+# Delete a line (or leave it blank) to keep the deck's built-in wording.
+# ============================================================
+
+
+# ---- Slide 1 — Title ----
+s1.kicker: A FireForm Story
+s1.title:  Report once.|*File everywhere. * 🔥
+s1.lede:   The story of one fire — and the second shift no one sees. This is how FireForm gives first responders their time back.
+s1.chips:  UN Digital Public Good | Reboot the Earth — 1st Place | Open source
+
+# ---- Slide 2 — Story triptych (3 panels: the call · the fight · the paperwork) ----
+# Only a title shows on each panel, overlaid on its image. (s2/s3/s4.image set the
+# panel photos in the PHOTOS section below.)
+s2.title:  Engine 33, on route to call.
+s3.title:  They do the part|everyone *remembers.*
+s4.title:  The emergency's over.|The shift isn't.
+
+# ---- Slide 5 — The problem ----
+s5.kicker: The Hidden Second Shift
+s5.title:  One incident.|A stack of *agencies.*
+s5.lede:   The same night gets reported again and again — county sheriff, local PD, EMS, the state. Every agency wants its own form, its own fields, its own order.
+s5.cards:  Same data :: Names, times, address, narrative — keyed in by hand for every single form. || Different templates :: Each agency's PDF is laid out differently. No two ask the same way. || End of shift :: This all happens when the crew is most tired and least sharp.
+
+# ---- Slide 6 — The cost ----
+s6.kicker: What It Actually Costs
+s6.title:  Hours
+s6.lede:   Per shift. Per responder. Time spent re-typing what already happened instead of resting, training, or being ready for the next call. Across a department, it's hundreds of hours a year lost to redundant paperwork.
+
+# ---- Slide 7 — The solution ----
+s7.kicker: There's a Better Way
+s7.title:  Meet *FireForm* 🔥
+s7.lede:   A "report once, file everywhere" system. The firefighter describes the incident one time — and every required form fills itself, for every agency. It runs locally and is 100% open source — a recognized *UN Digital Public Good* any department can adopt for free.
+s7.chips:  Report once | File everywhere | Nothing leaves the machine | Open source & free | UN Digital Public Good
+
+# ---- Slide 6 — How it works (header + 3 panels: speak · extract · fill) ----
+# Header sits above the panels; each panel title is above its image; panels build one Next-press at a time.
+s8.kicker: How It Works
+s8.title:  One input. Every form.
+s8.speak:   Speak
+s8.extract: Extract
+s8.fill:    Fill
+
+
+# ============================================================
+#  PHOTOS (optional) — show your own picture instead of the built-in graphic
+# ============================================================
+# Each story slide has a designed FireForm-style graphic by default. To use a
+# real photo instead, drop the file in the images/ folder and set its line below.
+# Leave a line blank (or point it at a file that isn't there yet) and the built-in
+# graphic stays — so these are always safe. Best around 4:3 (e.g. 1200×900).
+# Served over http via ./present.command; do NOT put a # comment after the path.
+#
+#   s2 = fire truck (the call)     s3 = firefighting        s4 = paperwork photo
+#   s5 = agency fan-out (graphic)   s6 = hours chart        s7 = app screenshot
+#
+# Drop real photos for the story panels (alarm / firefighting); the forms panel stays a graphic:
+s2.image: images/firetruck.jpg
+s3.image: images/firefighting.jpg
+s4.image: images/paperwork.jpg
+s5.image:
+s6.image:
+s7.image:
+
+# ---- Slide 10 — Live demo ----
+# (No editable text — this slide embeds the live product.)
