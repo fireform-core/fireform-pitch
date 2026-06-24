@@ -198,6 +198,29 @@
   @keyframes svp{0%,100%{opacity:1}50%{opacity:.3}}
   .sv-flow{stroke:var(--app-primary); stroke-width:2.5; fill:none; marker-end:url(#svArrow)}
 
+  /* ---------- Slide 9: header row with a "scan the repo" QR ---------- */
+  .s9head{display:flex; align-items:center; gap:clamp(1.5rem,4vw,3.6rem); width:100%}
+  .s9head .s9copy{flex:1 1 auto; min-width:0}
+  .qr{flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:.7rem; margin:0}
+  .qr .qrcard{background:#fff; padding:14px; border-radius:16px; line-height:0;
+    box-shadow:0 20px 54px rgba(0,0,0,.45), 0 2px 0 rgba(255,255,255,.05) inset}
+  .qr .qrcard img{display:block; width:clamp(116px,12vw,168px); height:auto}
+  .qr figcaption{font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ember2); font-weight:700}
+  @media (max-width:900px){ .s9head{flex-direction:column; align-items:flex-start} .qr{align-self:center} }
+  .s1qr{margin-top:clamp(1.4rem,3vh,2.2rem); align-items:flex-start}
+
+  /* ---------- Partner logos (slide 9) ---------- */
+  .partners{margin-top:2rem; width:100%}
+  .partners .plabel{font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ember2); font-weight:700; margin-bottom:1rem}
+  .partners .plogos{display:flex; flex-wrap:wrap; gap:.8rem; align-items:stretch; justify-content:center}
+  .partners .plogo{background:#fff; border-radius:14px; padding:.7rem 1rem;
+    display:flex; align-items:center; justify-content:center;
+    height:clamp(72px,8.5vw,94px); flex:1 1 128px; min-width:118px; max-width:220px;
+    box-shadow:0 14px 34px rgba(0,0,0,.34), 0 2px 0 rgba(255,255,255,.05) inset}
+  .partners .plogo img{display:block; max-height:clamp(48px,5.8vw,64px); max-width:162px; width:auto; height:auto; object-fit:contain}
+  .partners .plogo.big img{max-height:clamp(56px,6.8vw,76px); max-width:150px}
+  @media (max-width:900px){ .partners .plogo{flex:1 1 40%} }
+
   /* ---------- Chrome ---------- */
   #progress{position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--ember),var(--ember2)); z-index:50; transition:width .4s ease}
   #dots{position:fixed; bottom:26px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:40}
@@ -249,6 +272,10 @@
       <span class="chip">Reboot the Earth: 1st Place</span>
       <span class="chip">Open source</span>
     </div>
+    <figure class="qr s1qr">
+      <div class="qrcard"><img src="images/fireform-core.svg" alt="QR code to the FireForm source repository" width="168" height="168"></div>
+      <figcaption>Scan for the repo</figcaption>
+    </figure>
   </section>
 
   <!-- 2–4 merged: story triptych: the call · the fight · the paperwork -->
@@ -524,14 +551,33 @@
 
   <!-- 9. Since Reboot the Earth: the journey + what's next -->
   <section class="slide">
-    <div class="kicker" data-k="s9.kicker">Six Months Later</div>
-    <h2 data-k="s9.title">From a hackathon win to <span class="grad">real-world impact.</span></h2>
-    <p class="lede" data-k="s9.lede">Winning was the start. Here's the path from a hackathon prototype toward a deployed Digital Public Good.</p>
+    <div class="s9head">
+      <div class="s9copy">
+        <div class="kicker" data-k="s9.kicker">Six Months Later</div>
+        <h2 data-k="s9.title">From a hackathon win to <span class="grad">real-world impact.</span></h2>
+        <p class="lede" data-k="s9.lede">Winning was the start. Here's the path from a hackathon prototype toward a deployed Digital Public Good.</p>
+      </div>
+      <figure class="qr">
+        <div class="qrcard"><img src="images/fireform-core.svg" alt="QR code to the FireForm source repository" width="168" height="168"></div>
+        <figcaption>Scan for the repo</figcaption>
+      </figure>
+    </div>
     <div class="row" data-cards="s9.cards">
       <div class="card"><div class="n">The challenge</div><p>Reboot the Earth (UN &middot; UC Santa Cruz &middot; CalFire): open-source tech for wildfire-resilient communities and the responders who protect them.</p></div>
       <div class="card"><div class="n">6 months &middot; ~6 calls</div><p>1st place &rarr; a Salesforce mentorship of ~6 monthly calls, turning the hackathon demo into software a department could actually run.</p></div>
       <div class="card"><div class="n">Where we are now</div><p>Open source (MIT), accepted into Google Summer of Code, and piloting with fire departments. <span class="grad">Submitted to the DPGA, now under review.</span></p></div>
-      <div class="card"><div class="n">What's next</div><p>Scale to real departments and a &ldquo;Reboot in a Box&rdquo; kit; external data APIs, an insights dashboard, and ML field detection.</p></div>
+      <div class="card"><div class="n">What's next</div><p>Working with fire departments on real-world use cases, and continuing to work with Google Summer of Code.</p></div>
+    </div>
+    <div class="partners">
+      <div class="plabel">Partners &amp; programs</div>
+      <div class="plogos">
+        <div class="plogo"><img src="images/logos/un.svg" alt="United Nations"></div>
+        <div class="plogo"><img src="images/logos/ucsc.svg" alt="UC Santa Cruz"></div>
+        <div class="plogo"><img src="images/logos/calfire.svg" alt="CAL FIRE"></div>
+        <div class="plogo"><img src="images/logos/salesforce.svg" alt="Salesforce"></div>
+        <div class="plogo big"><img src="images/logos/gsoc.svg" alt="Google Summer of Code"></div>
+        <div class="plogo big"><img src="images/logos/dpga.png" alt="Digital Public Goods Alliance"></div>
+      </div>
     </div>
   </section>
 

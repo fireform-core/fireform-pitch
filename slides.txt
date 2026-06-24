@@ -62,7 +62,7 @@ s8.fill:    Fill
 s9.kicker: Six Months Later
 s9.title:  From a hackathon win to *real-world impact.*
 s9.lede:   Winning was the start. Here's the path from a hackathon prototype toward a deployed Digital Public Good.
-s9.cards:  The challenge :: Reboot the Earth (UN · UC Santa Cruz · CalFire): open-source tech for wildfire-resilient communities and the responders who protect them. || 6 months · ~6 calls :: 1st place → a Salesforce mentorship of ~6 monthly calls, turning the hackathon demo into software a department could actually run. || Where we are now :: Open source (MIT), accepted into Google Summer of Code, and piloting with fire departments. *Submitted to the DPGA, now under review.* || What's next :: Scale to real departments and a "Reboot in a Box" kit; external data APIs, an insights dashboard, and ML field detection.
+s9.cards:  The challenge :: Reboot the Earth (UN · UC Santa Cruz · CalFire): open-source tech for wildfire-resilient communities and the responders who protect them. || 6 months · ~6 calls :: 1st place → a Salesforce mentorship of ~6 monthly calls, turning the hackathon demo into software a department could actually run. || Where we are now :: Open source (MIT), accepted into Google Summer of Code, and piloting with fire departments. *Submitted to the DPGA, now under review.* || What's next :: Working with fire departments on real-world use cases, and continuing to work with Google Summer of Code.
 
 
 # ============================================================
