@@ -22,7 +22,7 @@
 s1.kicker: A FireForm Story
 s1.title:  Report once.|*File everywhere. * 🔥
 s1.lede:   The story of one fire, and the second shift no one sees. This is how FireForm gives first responders their time back.
-s1.chips:  DPG candidate · under DPGA review | Reboot the Earth: 1st Place | Open source
+s1.chips:  Recognized Digital Public Good | Reboot the Earth: 1st Place | Open source
 
 # ---- Slide 2: Story triptych (3 panels: the call · the fight · the paperwork) ----
 # Only a title shows on each panel, overlaid on its image. (s2/s3/s4.image set the
@@ -45,8 +45,8 @@ s6.lede:   Per shift. Per responder. Time spent re-typing what already happened 
 # ---- Slide 7: The solution ----
 s7.kicker: There's a Better Way
 s7.title:  Meet *FireForm* 🔥
-s7.lede:   A "report once, file everywhere" system. The firefighter describes the incident one time, and every required form fills itself, for every agency. It runs locally and is 100% open source. It's *submitted to the DPGA* and free for any department to adopt today.
-s7.chips:  Report once | File everywhere | Nothing leaves the machine | Open source & free | DPG candidate
+s7.lede:   A "report once, file everywhere" system. The firefighter describes the incident one time, and every required form fills itself, for every agency. It runs locally and is 100% open source. It's a *recognized Digital Public Good* and free for any department to adopt today.
+s7.chips:  Report once | File everywhere | Nothing leaves the machine | Open source & free | Digital Public Good
 
 # ---- Slide 6: How it works (header + 3 panels: speak · extract · fill) ----
 # Header sits above the panels; each panel title is above its image; panels build one Next-press at a time.
@@ -62,7 +62,7 @@ s8.fill:    Fill
 s9.kicker: Six Months Later
 s9.title:  From a hackathon win to *real-world impact.*
 s9.lede:   Winning was the start. Here's the path from a hackathon prototype toward a deployed Digital Public Good.
-s9.cards:  The challenge :: Reboot the Earth (UN · UC Santa Cruz · CalFire): open-source tech for wildfire-resilient communities and the responders who protect them. || 6 months · ~6 calls :: 1st place → a Salesforce mentorship of ~6 monthly calls, turning the hackathon demo into software a department could actually run. || Where we are now :: Open source (MIT), accepted into Google Summer of Code, and piloting with fire departments. *Submitted to the DPGA, now under review.* || What's next :: Working with fire departments on real-world use cases, and continuing to work with Google Summer of Code.
+s9.cards:  The challenge :: Reboot the Earth (UN · UC Santa Cruz · CalFire): open-source tech for wildfire-resilient communities and the responders who protect them. || 6 months · ~6 calls :: 1st place → a Salesforce mentorship of ~6 monthly calls, turning the hackathon demo into software a department could actually run. || Where we are now :: Open source (MIT), accepted into Google Summer of Code, and piloting with fire departments. *Approved as a Digital Public Good by the DPGA, as of today.* || What's next :: Working with fire departments on real-world use cases, and continuing to work with Google Summer of Code.
 
 
 # ============================================================
